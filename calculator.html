@@ -7,31 +7,218 @@
     <div id='holder'>
         <div id='calculator'>
             <div id='screen'>
-                <p>732000</p>
+                <p id='storedNumber'>555</p>
+                <p id='screenNumber'>732000</p>
             </div>
             <div id='buttons'>
                 <button id='factorial'>x!</button>
                 <button id='exponent'>x^n</button>
                 <button id='clear'>Clear</button>
                 <button id='remove'>remove</button>
-                <button id='7'>7</button>
-                <button id='8'>8</button>
-                <button id='9'>9</button>
+                <button id='seven'>7</button>
+                <button id='eight'>8</button>
+                <button id='nine'>9</button>
                 <button id='divide'>÷</button>
-                <button id='6'>4</button>
-                <button id='5'>5</button>
-                <button id='4'>6</button>
+                <button id='four'>4</button>
+                <button id='five'>5</button>
+                <button id='six'>6</button>
                 <button id='minus'>-</button>
-                <button id='3'>1</button>
-                <button id='2'>2</button>
-                <button id='1'>3</button>
-                <button id='plus'>+</button>
-                <button id='equals'>=</button>
-                <button id='0'>0</button>
+                <button id='one'>1</button>
+                <button id='two'>2</button>
+                <button id='three'>3</button>
+                <button id='add'>+</button>
+                <button id='zero'>0</button>
                 <button id='decimal'>.</button>
                 <button id='multiply'>X</button>
+                <button id='equals'>=</button>
             </div>
         </div>
     </div>
 </body>
-<script></script>
+<script>
+
+    let sum;
+    function operation(a,b){
+        if (operator == 'minus'){
+            sum = (a - b);
+        }
+        else if (operator == 'add'){
+            sum = a + b;
+        }
+        else if (operator == 'multiply'){
+            sum = a * b;
+        }
+        else if (operator == 'divide') {
+            sum = (a / b);
+        }
+        else if (operator == 'none') {
+            console.log('Choose an operator!')
+        }
+        console.log(a);
+        console.log(b);
+        return sum;
+    }
+
+
+    //change display based on number input//
+    let screenNumber = document.querySelector('#screenNumber');
+
+    let nineButton = document.querySelector('#nine');
+    nineButton.addEventListener('click', function(){
+        screenNumber.textContent += '9';
+    });
+    let eightButton = document.querySelector('#eight');
+    eightButton.addEventListener('click', function(){
+        screenNumber.textContent += '8';
+    });
+    let sevenButton = document.querySelector('#seven');
+    sevenButton.addEventListener('click', function(){
+        screenNumber.textContent += '7';
+    });
+    let sixButton = document.querySelector('#six');
+    sixButton.addEventListener('click', function(){
+        screenNumber.textContent += '6';
+    });
+    let fiveButton = document.querySelector('#five');
+    fiveButton.addEventListener('click', function(){
+        screenNumber.textContent += '5';
+    });
+    let fourButton = document.querySelector('#four');
+    fourButton.addEventListener('click', function(){
+        screenNumber.textContent += '4';
+    });
+    let threeButton = document.querySelector('#three');
+    threeButton.addEventListener('click', function(){
+        screenNumber.textContent += '3';
+    });
+    let twoButton = document.querySelector('#two');
+    twoButton.addEventListener('click', function(){
+        screenNumber.textContent += '2';
+    });
+    let oneButton = document.querySelector('#one');
+    oneButton.addEventListener('click', function(){
+        screenNumber.textContent += '1';
+    });
+    let zeroButton = document.querySelector('#zero');
+    zeroButton.addEventListener('click', function(){
+        screenNumber.textContent += '0';
+    });
+
+    // decimal has to be a special case, must limit to one decimal per 'phrase'//
+    let decimalButton = document.querySelector('#decimal');
+    decimalButton.addEventListener('click', function(){
+        if (screenNumber.textContent.includes('.')){
+        screenNumber.textContent += '';
+        }
+        else {screenNumber.textContent += '.';}
+    });
+
+    let clearButton = document.querySelector('#clear');
+    clearButton.addEventListener('click', function(){
+        screenNumber.textContent = '';
+        storedScreenNumber.textContent = '';
+    });
+
+    let removeButton = document.querySelector('#remove');
+    removeButton.addEventListener('click', function(){
+        screenNumber.textContent = screenNumber.textContent.slice(0, -1);
+    });
+
+
+
+    var storedScreenNumber = document.querySelector('#storedNumber')
+    var operator = 'none';
+
+    let addButton = document.querySelector('#add')
+    addButton.addEventListener('click', function(){
+            operator = 'add';
+            storedScreenNumber.textContent = screenNumber.textContent + ' +';
+            screenNumber.textContent = '';
+            console.log(operator);
+    });
+    
+    let minusButton = document.querySelector('#minus')
+    minusButton.addEventListener('click', function(){
+        operator = 'minus';
+        storedScreenNumber.textContent = screenNumber.textContent + ' -';;
+        screenNumber.textContent = '';
+        console.log(operator);
+    });
+
+    let multiplyButton = document.querySelector('#multiply')
+    multiplyButton.addEventListener('click', function(){
+        operator = 'multiply';
+        storedScreenNumber.textContent = screenNumber.textContent + ' *';;
+        screenNumber.textContent = '';
+        console.log(operator);
+    });
+
+    let divideButton = document.querySelector('#divide')
+    divideButton.addEventListener('click', function(){
+        operator = 'divide';
+        storedScreenNumber.textContent = screenNumber.textContent + ' ÷';;
+        screenNumber.textContent = '';
+        console.log(operator);
+    });
+
+
+    let number1;
+    let number2;
+    console.log(operator);
+    let equalsButton = document.querySelector('#equals')
+    equalsButton.addEventListener('click', function(){
+        if (storedScreenNumber.textContent == ''){
+            number1 = 1;
+        }
+        if (screenNumber.textContent.includes('^')){
+        let x = Array.from(screenNumber.textContent);
+        let y = x.slice((x.indexOf('^')));
+        x.splice(x.indexOf('^'));
+        y.shift();
+        number2 = Math.pow(parseFloat((x.join(''))), parseFloat((y.join(''))));
+        }
+        else {number2 = parseFloat(screenNumber.textContent);}
+        
+        if (storedScreenNumber.textContent.includes('^')){
+        let x = Array.from(storedScreenNumber.textContent);
+        let y = x.slice((x.indexOf('^')));
+        x.splice(x.indexOf('^'));
+        y.pop();
+        y.pop();
+        y.shift();
+        number1 = Math.pow(parseFloat((x.join(''))), parseFloat((y.join(''))));
+        }
+        else {number1 = parseFloat(storedScreenNumber.textContent);};
+        
+        console.log('number 1 is' + number1);
+        console.log('number 2 is' + number2);
+        operation(number1, number2);
+        operator = 'none';
+        storedScreenNumber.textContent = '';
+        if((isNaN(number1) == true) && screenNumber.textContent.includes('^')){
+            screenNumber.textContent = (Math.round(number2 * 100) / 100);
+        }
+        else {screenNumber.textContent = (Math.round(sum * 100) / 100);}
+        
+        console.log(sum);
+    });
+
+
+    let exponentButton = document.querySelector('#exponent')
+    exponentButton.addEventListener('click', function(){
+        let number1 = parseFloat(screenNumber.textContent);
+        if (screenNumber.textContent.includes('^')){
+        screenNumber.textContent += '';
+        }
+        else {screenNumber.textContent += '^';}
+    });
+
+
+//code logic:
+//when operate is called, change screenNumber variable to another, ie hold in another variable
+// reset SN variable to 0
+// type in numbers
+// when equals is called, execute operation
+// display a variable in the screen name with the result, store in SN variable
+
+</script>
